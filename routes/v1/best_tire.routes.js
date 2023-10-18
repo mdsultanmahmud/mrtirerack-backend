@@ -1,10 +1,13 @@
 const express = require("express")
-const { AddBestTire } = require("../../controllers/best_tire.controller")
+const { AddBestTire, getAllBestTires, getSingleTire } = require("../../controllers/best_tire.controller")
 const router = express.Router()
 
 router.route("/")
-.post(AddBestTire)
+    .get(getAllBestTires)
+    .post(AddBestTire)
 
+router.route("/:id")
+    .get(getSingleTire)
 
 
 module.exports = router 
