@@ -4,7 +4,7 @@ require("dotenv").config()
 const cors = require("cors")
 const { connectToServer } = require('./utils/dbConnect')
 const errorHandler = require('./middleware/errorHandler')
-const BestTireRoutes = require("./routes/v1/best_tire.routes")
+const BestTireRoutes = require("./routes/v1/best_tire.routes") 
 const port = process.env.PORT || 5000
 
 //middlewear 

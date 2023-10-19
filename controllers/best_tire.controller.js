@@ -1,17 +1,5 @@
 const { getDb } = require("../utils/dbConnect")
-const { ObjectId } = require('mongodb'); 
-
-const tools = [
-    { id: 1, name: 'electroon.js' },
-    { id: 2, name: 'node.js' },
-    { id: 3, name: 'react.js' },
-    { id: 4, name: 'express.js' },
-    { id: 5, name: 'python' },
-    { id: 6, name: 'java' },
-    { id: 7, name: 'javacript' },
-    { id: 8, name: 'C' }
-]
-
+const { ObjectId } = require('mongodb');
 module.exports.getAllBestTires = async (req, res, next) => {
     const db = getDb()
     try {
@@ -19,7 +7,9 @@ module.exports.getAllBestTires = async (req, res, next) => {
             .find({})
             // .sort({ uploadDate: -1 })
             .toArray()
-        res.status(200).send({ success: true, message: "Data are fethcing...", data: response })
+        const count = await db.collection("Best_Tire").count()
+        console.log(count)
+        res.status(200).send({ success: true, message: "Data are fethcing...", count, data: response })
     } catch (error) {
         next(error)
     }
@@ -46,15 +36,51 @@ module.exports.AddBestTire = async (req, res, next) => {
 module.exports.getSingleTire = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const db = getDb(); 
+        const db = getDb();
 
         const response = await db.collection("Best_Tire")
-            .findOne({ _id: new ObjectId(id) }); 
+            .findOne({ _id: new ObjectId(id) });
 
         if (response) {
             res.status(200).send({ success: true, message: "Data retrieved successfully", data: response });
         } else {
             res.status(404).send({ success: false, message: "Data not found" });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports.AddAComment = async (req, res, next) => {
+    const db = getDb()
+    const comment = req.body
+    const id = req.params.id
+    try {
+        const result = await db.collection("Best_Tire").updateOne(
+            { _id: new ObjectId(id) },
+            { $push: { comments: comment } }
+        );
+
+        if (result.modifiedCount > 0) {
+            res.status(200).send({ status: true, message: "Comment added successfully" });
+        } else {
+            res.status(404).send({ status: false, message: "Blog not found or comment not added" });
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports.DeleteATire = async (req, res, next) => {
+    const db = getDb();
+    const id = req.params.id;
+    try {
+        const result = await db.collection("Best_Tire").deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount > 0) {
+            res.status(200).send({ status: true, message: "Deleted successfully" });
+        } else {
+            res.status(404).send({ status: false, message: "Tire not found or delete operation failed" });
         }
     } catch (error) {
         next(error);

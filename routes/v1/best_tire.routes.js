@@ -1,5 +1,5 @@
 const express = require("express")
-const { AddBestTire, getAllBestTires, getSingleTire } = require("../../controllers/best_tire.controller")
+const { AddBestTire, getAllBestTires, getSingleTire, AddAComment, DeleteATire } = require("../../controllers/best_tire.controller")
 const router = express.Router()
 
 router.route("/")
@@ -8,6 +8,7 @@ router.route("/")
 
 router.route("/:id")
     .get(getSingleTire)
-
+    .patch(AddAComment)
+    .delete(DeleteATire)
 
 module.exports = router 
