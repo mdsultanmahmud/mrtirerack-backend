@@ -8,7 +8,7 @@ router.route("/")
 
 router.route("/:id")
     .get(getSingleTire)
-    .patch(AddAComment)
+    // .patch(AddAComment)
     .delete(DeleteATire)
 
 module.exports = router 

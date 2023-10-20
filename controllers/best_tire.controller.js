@@ -51,25 +51,25 @@ module.exports.getSingleTire = async (req, res, next) => {
     }
 };
 
-module.exports.AddAComment = async (req, res, next) => {
-    const db = getDb()
-    const comment = req.body
-    const id = req.params.id
-    try {
-        const result = await db.collection("Best_Tire").updateOne(
-            { _id: new ObjectId(id) },
-            { $push: { comments: comment } }
-        );
+// module.exports.AddAComment = async (req, res, next) => {
+//     const db = getDb()
+//     const comment = req.body
+//     const id = req.params.id
+//     try {
+//         const result = await db.collection("Best_Tire").updateOne(
+//             { _id: new ObjectId(id) },
+//             { $push: { comments: comment } }
+//         );
 
-        if (result.modifiedCount > 0) {
-            res.status(200).send({ status: true, message: "Comment added successfully" });
-        } else {
-            res.status(404).send({ status: false, message: "Blog not found or comment not added" });
-        }
-    } catch (error) {
-        next(error);
-    }
-}
+//         if (result.modifiedCount > 0) {
+//             res.status(200).send({ status: true, message: "Comment added successfully" });
+//         } else {
+//             res.status(404).send({ status: false, message: "Blog not found or comment not added" });
+//         }
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 module.exports.DeleteATire = async (req, res, next) => {
     const db = getDb();
@@ -78,7 +78,7 @@ module.exports.DeleteATire = async (req, res, next) => {
         const result = await db.collection("Best_Tire").deleteOne({ _id: new ObjectId(id) });
 
         if (result.deletedCount > 0) {
-            res.status(200).send({ status: true, message: "Deleted successfully" });
+            res.status(200).send({ status: true, message: "Deleted successfully", data:result });
         } else {
             res.status(404).send({ status: false, message: "Tire not found or delete operation failed" });
         }
