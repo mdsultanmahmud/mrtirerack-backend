@@ -8,6 +8,7 @@ const port = process.env.PORT || 5000
 const BestTireRoutes = require("./routes/v1/best_tire.routes") 
 const CommentRoutes = require("./routes/v1/comments.routes")
 const LearnHowToBlog = require("./routes/v1/learn_how.routes")
+const SlugURL = require("./routes/v1/slug.routes")
 //middlewear 
 app.use(cors())
 app.use(express.json())
@@ -25,6 +26,7 @@ connectToServer((err) => {
 app.use('/api/v1/best_tire', BestTireRoutes)
 app.use("/api/v1/comments", CommentRoutes)
 app.use("/api/v1/learn_how", LearnHowToBlog)
+app.use("/api/v1/slug", SlugURL)
 
 app.get('/', (req, res) => {
     res.send('server is running successfully!!')

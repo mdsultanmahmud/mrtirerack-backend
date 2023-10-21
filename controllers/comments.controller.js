@@ -4,7 +4,7 @@ const { getDb } = require("../utils/dbConnect")
 module.exports.getAllComments = async (req, res, next) => {
     const db = getDb()
     try {
-        const comments = await db.collection("Comments").find({}).toArray()
+        const comments = await db.collection("Comments").find({}).sort({ createdAt: -1 }).toArray()
         if (comments) {
             return res.status(200).send({ success: true, message: "We get all comments!", data: comments })
         } else {
